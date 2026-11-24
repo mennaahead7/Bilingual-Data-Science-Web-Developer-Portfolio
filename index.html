@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | علوم البيانات وتطوير الويب</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo, Tajawal (Arabic) & Inter, JetBrains Mono (English/Code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        arabicHeading: ['Cairo', 'sans-serif'],
+                        arabicBody: ['Tajawal', 'sans-serif'],
+                        english: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        accent: {
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Dynamic Font Switching based on Document Direction */
+        html[dir="rtl"] body {
+            font-family: 'Tajawal', sans-serif;
+        }
+        html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] h4, html[dir="rtl"] .font-heading {
+            font-family: 'Cairo', sans-serif;
+        }
+        html[dir="ltr"] body, html[dir="ltr"] h1, html[dir="ltr"] h2, html[dir="ltr"] h3, html[dir="ltr"] h4, html[dir="ltr"] .font-heading {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Subtle Grid Background Pattern */
+        .bg-grid-pattern {
+            background-size: 36px 36px;
+            background-image: 
+                linear-gradient(to right, rgba(99, 102, 241, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.06) 1px, transparent 1px);
+        }
+        .dark .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(129, 140, 248, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(129, 140, 248, 0.07) 1px, transparent 1px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- ==================== STICKY GLASSMORPHISM NAVBAR ==================== -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo / Monogram -->
+                <a href="#hero" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-500 to-accent-500 text-white font-code font-bold text-lg flex items-center justify-center shadow-lg shadow-brand-500/25 group-hover:scale-105 transition-transform">
+                        &lt;/&gt;
+                    </div>
+                    <div>
+                        <span data-i18n="navBrand" class="font-heading font-extrabold text-lg text-slate-900 dark:text-white block leading-tight">م. نور الهدى</span>
+                        <span data-i18n="navRole" class="text-xs text-brand-600 dark:text-brand-400 font-medium">علوم البيانات وتطوير الويب</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+                    <a href="#about" data-i18n="navAbout" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">نبذة عني</a>
+                    <a href="#skills" data-i18n="navSkills" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">المهارات التقنية</a>
+                    <a href="#projects" data-i18n="navProjects" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">معرض الأعمال</a>
+                    <a href="#achievements" data-i18n="navAchievements" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">الشهادات والإنجازات</a>
+                    <a href="#contact" data-i18n="navContact" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">تواصل معي</a>
+                </nav>
+
+                <!-- Controls: Language Switcher, Theme Toggle & Mobile Menu -->
+                <div class="flex items-center gap-2.5">
+                    <!-- Bilingual RTL/LTR Switcher -->
+                    <button id="lang-toggle" onclick="toggleLanguage()" class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm font-heading font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 transition-all active:scale-95">
+                        <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                        </svg>
+                        <span id="lang-label">English</span>
+                    </button>
+
+                    <!-- Dark / Light Mode Toggle -->
+                    <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-amber-400 transition-all active:scale-95">
+                        <!-- Sun Icon (shown in dark mode) -->
+                        <svg id="icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        <!-- Moon Icon (shown in light mode) -->
+                        <svg id="icon-moon" class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 px-4 pt-3 pb-5 space-y-2">
+            <a href="#about" onclick="toggleMobileMenu()" data-i18n="navAbout" class="block py-2.5 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 font-medium">نبذة عني</a>
+            <a href="#skills" onclick="toggleMobileMenu()" data-i18n="navSkills" class="block py-2.5 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 font-medium">المهارات التقنية</a>
+            <a href="#projects" onclick="toggleMobileMenu()" data-i18n="navProjects" class="block py-2.5 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 font-medium">معرض الأعمال</a>
+            <a href="#achievements" onclick="toggleMobileMenu()" data-i18n="navAchievements" class="block py-2.5 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 font-medium">الشهادات والإنجازات</a>
+            <a href="#contact" onclick="toggleMobileMenu()" data-i18n="navContact" class="block py-2.5 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 font-medium">تواصل معي</a>
+        </div>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="hero" class="relative overflow-hidden bg-grid-pattern pt-14 pb-20 lg:pt-24 lg:pb-28 border-b border-slate-200/70 dark:border-slate-800/70">
+        <!-- Ambient Gradient Glows -->
+        <div class="absolute top-10 start-1/4 w-96 h-96 bg-brand-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 end-1/4 w-80 h-80 bg-accent-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left/Start Content Column -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-start">
+                    <!-- Availability Status Pill -->
+                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-400 text-xs sm:text-sm font-semibold">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <span data-i18n="heroBadge">متاحة للمشاريع المستقلة والتعاون التقني</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-slate-900 dark:text-white leading-tight">
+                        <span data-i18n="heroTitle1">أحوّل البيانات إلى</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 via-indigo-400 to-accent-400" data-i18n="heroTitleHighlight">رؤى ذكية</span>
+                        <span data-i18n="heroTitle2">وأبني واجهات ويب عصرية</span>
+                    </h1>
+
+                    <p data-i18n="heroSubtitle" class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        طالبة هندسة علوم البيانات والذكاء الاصطناعي ومطوّرة مستقلة متخصصة في تحليل البيانات بلغة بايثون وتصميم مواقع الويب المتجاوبة ثنائية اللغة (عربي / إنجليزي) بأعلى معايير الأداء والجمالية.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#projects" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-500 text-white font-heading font-bold text-sm sm:text-base shadow-lg shadow-brand-600/25 transition-all flex items-center justify-center gap-2 active:scale-95">
+                            <span data-i18n="heroCtaWork">استعرض أعمالي</span>
+                            <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 font-heading font-bold text-sm sm:text-base transition-all text-center active:scale-95">
+                            <span data-i18n="heroCtaHire">اطلب خدمة أو تواصل معي</span>
+                        </a>
+                    </div>
+
+                    <!-- Social & Freelance Platforms Row -->
+                    <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                        <span data-i18n="findMeOn" class="text-xs font-semibold text-slate-500 dark:text-slate-400">حساباتي المهنية:</span>
+                        
+                        <!-- GitHub -->
+                        <a href="https://github.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500 text-xs font-semibold transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                            <span>GitHub</span>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500 text-xs font-semibold transition-colors">
+                            <svg class="w-4 h-4 text-sky-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                            <span>LinkedIn</span>
+                        </a>
+
+                        <!-- Mostaql -->
+                        <a href="https://mostaql.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500 text-xs font-semibold transition-colors">
+                            <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                            <span data-i18n="platformMostaql">مستقل</span>
+                        </a>
+
+                        <!-- Khamsat -->
+                        <a href="https://khamsat.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500 text-xs font-semibold transition-colors">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                            <span data-i18n="platformKhamsat">خمسات</span>
+                        </a>
+
+                        <!-- Upwork -->
+                        <a href="https://upwork.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500 text-xs font-semibold transition-colors">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            <span>Upwork</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right/End Interactive Code Terminal Card -->
+                <div class="lg:col-span-5">
+                    <div dir="ltr" class="rounded-3xl bg-slate-900 text-slate-100 border border-slate-800 shadow-2xl overflow-hidden text-left">
+                        <!-- Terminal Header -->
+                        <div class="px-5 py-3.5 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            </div>
+                            <span class="font-code text-xs text-slate-400">engineer_profile.py</span>
+                            <span class="text-[10px] font-code px-2 py-0.5 rounded bg-brand-500/20 text-brand-400">Python 3.12</span>
+                        </div>
+
+                        <!-- Terminal Code Content -->
+                        <div class="p-6 font-code text-xs sm:text-sm leading-relaxed space-y-2 overflow-x-auto">
+                            <p><span class="text-purple-400">class</span> <span class="text-amber-300">DataAndWebDeveloper</span>:</p>
+                            <p class="pl-4"><span class="text-purple-400">def</span> <span class="text-sky-400">__init__</span>(<span class="text-rose-300">self</span>):</p>
+                            <p class="pl-8"><span class="text-rose-300">self</span>.major = <span class="text-emerald-400">"Data Science & AI"</span></p>
+                            <p class="pl-8"><span class="text-rose-300">self</span>.gpa = <span class="text-amber-400">92.36</span>  <span class="text-slate-500"># Honors</span></p>
+                            <p class="pl-8"><span class="text-rose-300">self</span>.stack = [</p>
+                            <p class="pl-12"><span class="text-emerald-400">"Python (Pandas, NumPy)"</span>,</p>
+                            <p class="pl-12"><span class="text-emerald-400">"HTML5, CSS3, JS (ES6+)"</span>,</p>
+                            <p class="pl-12"><span class="text-emerald-400">"SQL, Oracle DB, Power BI"</span></p>
+                            <p class="pl-8">]</p>
+                            <p class="pl-4 pt-1"><span class="text-purple-400">def</span> <span class="text-sky-400">deliver_value</span>(<span class="text-rose-300">self</span>):</p>
+                            <p class="pl-8"><span class="text-purple-400">return</span> <span class="text-emerald-400">"Clean Code & Smart Insights"</span></p>
+                        </div>
+
+                        <!-- Bottom Status Bar -->
+                        <div class="px-5 py-3 bg-slate-950/70 border-t border-slate-800 flex items-center justify-between text-xs font-code text-slate-400">
+                            <span class="flex items-center gap-1.5 text-accent-400">
+                                <span>●</span> RTL / LTR Ready
+                            </span>
+                            <span>100% Responsive</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT & VALUE PROPOSITION SECTION ==================== -->
+    <section id="about" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-6 space-y-5">
+                    <span data-i18n="aboutTag" class="text-brand-600 dark:text-brand-400 font-heading font-bold text-sm uppercase tracking-wider">من أنا؟</span>
+                    <h2 data-i18n="aboutHeading" class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white leading-snug">
+                        أجمع بين الدقة التحليلية لعلوم البيانات والإبداع البصري لتطوير الويب
+                    </h2>
+                    <p data-i18n="aboutPara1" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                        بصفتي طالبة متفوقة في هندسة علوم البيانات والذكاء الاصطناعي بمعدل تراكمي <strong>92.36%</strong>، أمتلك شغفاً كبيراً ببناء حلول برمجية تجمع بين الكفاءة الحسابية وتجربة المستخدم السلسة.
+                    </p>
+                    <p data-i18n="aboutPara2" class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                        أساعد الشركات ورواد الأعمال على منصات العمل الحر في بناء صفحات هبوط احترافية ومواقع تعريفية متوافقة مع كافة الأجهزة وتدعم اللغتين العربية والإنجليزية، بالإضافة إلى تنظيف وتحليل البيانات وبناء تقارير ذكية بلغة بايثون.
+                    </p>
+                </div>
+
+                <!-- 4 Key Metrics Cards -->
+                <div class="lg:col-span-6 grid grid-cols-2 gap-4 sm:gap-6">
+                    <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                        <div class="w-11 h-11 rounded-2xl bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center font-heading font-extrabold text-xl mb-3">🎓</div>
+                        <p class="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">92.36%</p>
+                        <p data-i18n="statGpa" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">المعدل التراكمي في علوم البيانات</p>
+                    </div>
+
+                    <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                        <div class="w-11 h-11 rounded-2xl bg-accent-500/10 text-accent-500 flex items-center justify-center font-heading font-extrabold text-xl mb-3">💻</div>
+                        <p class="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">+12</p>
+                        <p data-i18n="statProjects" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">مشروع ويب وتحليل بيانات مكتمل</p>
+                    </div>
+
+                    <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                        <div class="w-11 h-11 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-heading font-extrabold text-xl mb-3">🌐</div>
+                        <p class="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">AR / EN</p>
+                        <p data-i18n="statBilingual" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">تطوير احترافي ثنائي اللغة RTL/LTR</p>
+                    </div>
+
+                    <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                        <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-heading font-extrabold text-xl mb-3">⚡</div>
+                        <p class="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">100%</p>
+                        <p data-i18n="statDelivery" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">الالتزام بالجودة ومواعيد التسليم</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== INTERACTIVE SKILLS & TECH STACK ==================== -->
+    <section id="skills" class="py-20 bg-slate-100/70 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span data-i18n="skillsTag" class="text-brand-600 dark:text-brand-400 font-heading font-bold text-sm uppercase tracking-wider">الأدوات والتقنيات</span>
+                <h2 data-i18n="skillsHeading" class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white mt-2">مهاراتي التقنية</h2>
+                <p data-i18n="skillsSub" class="text-slate-600 dark:text-slate-400 mt-3">مجموعة متكاملة من تقنيات تطوير الواجهات الأمامية وهندسة وتحليل البيانات</p>
+            </div>
+
+            <!-- Skill Filter Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2.5 mb-10">
+                <button onclick="filterSkills('all')" data-skill-cat="all" data-i18n="filterAll" class="skill-tab active px-5 py-2.5 rounded-2xl font-heading font-bold text-xs sm:text-sm bg-brand-600 text-white shadow-md transition-all">
+                    الكل
+                </button>
+                <button onclick="filterSkills('data')" data-skill-cat="data" data-i18n="filterData" class="skill-tab px-5 py-2.5 rounded-2xl font-heading font-bold text-xs sm:text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-500 transition-all">
+                    البيانات والذكاء الاصطناعي
+                </button>
+                <button onclick="filterSkills('web')" data-skill-cat="web" data-i18n="filterWeb" class="skill-tab px-5 py-2.5 rounded-2xl font-heading font-bold text-xs sm:text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-500 transition-all">
+                    تطوير الويب
+                </button>
+                <button onclick="filterSkills('tools')" data-skill-cat="tools" data-i18n="filterTools" class="skill-tab px-5 py-2.5 rounded-2xl font-heading font-bold text-xs sm:text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-500 transition-all">
+                    الأدوات وقواعد البيانات
+                </button>
+            </div>
+
+            <!-- Skills Grid -->
+            <div id="skills-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Dynamically rendered via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FEATURED PORTFOLIO PROJECTS ==================== -->
+    <section id="projects" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span data-i18n="projectsTag" class="text-brand-600 dark:text-brand-400 font-heading font-bold text-sm uppercase tracking-wider">نماذج من أعمالي</span>
+                <h2 data-i18n="projectsHeading" class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white mt-2">معرض المشاريع المختارة</h2>
+                <p data-i18n="projectsSub" class="text-slate-600 dark:text-slate-400 mt-3">تطبيقات ويب تفاعلية ومشاريع تحليل بيانات مصممة بعناية لحل مشكلات واقعية</p>
+            </div>
+
+            <!-- Project Category Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2.5 mb-12">
+                <button onclick="filterProjects('all')" data-proj-cat="all" data-i18n="projAll" class="proj-tab active px-5 py-2.5 rounded-2xl font-heading font-bold text-xs sm:text-sm bg-brand-600 text-white shadow-md transition-all">
+                    جميع المشاريع
+                </button>
+                <button onclick="filterProjects('web')" data-proj-cat="web" data-i18n="projWeb" class="proj-tab px-5 py-2.5 rounded-2xl font-heading font-bold text-xs sm:text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-500 transition-all">
+                    تطبيقات ومواقع الويب
+                </button>
+                <button onclick="filterProjects('data')" data-proj-cat="data" data-i18n="projData" class="proj-tab px-5 py-2.5 rounded-2xl font-heading font-bold text-xs sm:text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-brand-500 transition-all">
+                    بايثون وتحليل البيانات
+                </button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <!-- Dynamically rendered via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CERTIFICATIONS & ACHIEVEMENTS ==================== -->
+    <section id="achievements" class="py-20 bg-slate-100/70 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span data-i18n="achTag" class="text-brand-600 dark:text-brand-400 font-heading font-bold text-sm uppercase tracking-wider">التعلم المستمر</span>
+                <h2 data-i18n="achHeading" class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white mt-2">الشهادات والإنجازات الأكاديمية</h2>
+            </div>
+
+            <div id="achievements-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically rendered via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section id="contact" class="py-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+                
+                <!-- Contact Info Sidebar -->
+                <div class="lg:col-span-5 p-8 sm:p-10 bg-gradient-to-br from-brand-600 via-indigo-700 to-slate-900 text-white flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <span data-i18n="contactBadge" class="inline-block px-3 py-1 rounded-full bg-white/15 text-xs font-heading font-bold">ابدأ مشروعك الآن</span>
+                        <h2 data-i18n="contactHeading" class="text-3xl font-heading font-extrabold leading-snug">هل لديك فكرة موقع أو مشروع بيانات؟</h2>
+                        <p data-i18n="contactDesc" class="text-indigo-100 text-sm leading-relaxed">
+                            يسعدني مساعدتك في تصميم موقعك التعريفي المتجاوب أو تحليل بيانات مشروعك بدقة واحترافية. تواصل معي مباشرة وسأرد خلال ساعات.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 mt-8 pt-6 border-t border-white/15">
+                        <!-- Copyable Email Card -->
+                        <div class="p-3.5 rounded-2xl bg-white/10 backdrop-blur-xs flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <span data-i18n="emailLabel" class="text-[11px] text-indigo-200 block">البريد الإلكتروني المباشر</span>
+                                <span id="email-text" class="font-code text-xs sm:text-sm font-semibold truncate block">noor.datadev@example.com</span>
+                            </div>
+                            <button onclick="copyEmail()" class="px-3 py-1.5 rounded-xl bg-white text-brand-700 hover:bg-indigo-50 font-heading font-bold text-xs shrink-0 transition-all active:scale-95">
+                                <span data-i18n="copyBtn">نسخ</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-3 text-xs text-indigo-100">
+                            <span>📍</span>
+                            <span data-i18n="locationText">متاحة للعمل عن بُعد مع العملاء حول العالم</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="lg:col-span-7 p-8 sm:p-10">
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label data-i18n="formNameLabel" class="block text-xs font-heading font-bold text-slate-700 dark:text-slate-300 mb-1.5">الاسم الكامل</label>
+                                <input type="text" required id="input-name" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-brand-500 text-sm">
+                            </div>
+                            <div>
+                                <label data-i18n="formEmailLabel" class="block text-xs font-heading font-bold text-slate-700 dark:text-slate-300 mb-1.5">البريد الإلكتروني</label>
+                                <input type="email" required id="input-email" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-brand-500 text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label data-i18n="formServiceLabel" class="block text-xs font-heading font-bold text-slate-700 dark:text-slate-300 mb-1.5">نوع الخدمة المطلوبة</label>
+                            <select id="input-service" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-brand-500 text-sm">
+                                <option value="landing" data-i18n="srvLanding">تصميم صفحة هبوط / موقع تعريفي متجاوب (عربي / إنجليزي)</option>
+                                <option value="data" data-i18n="srvData">تنظيف وتحليل البيانات وتقارير بايثون (Pandas / Excel)</option>
+                                <option value="webapp" data-i18n="srvWebapp">تطوير تطبيق ويب تفاعلي متكامل</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label data-i18n="formMsgLabel" class="block text-xs font-heading font-bold text-slate-700 dark:text-slate-300 mb-1.5">تفاصيل المشروع</label>
+                            <textarea rows="4" required id="input-msg" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-brand-500 text-sm"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-500 text-white font-heading font-bold text-sm sm:text-base shadow-lg shadow-brand-600/20 transition-all active:scale-95">
+                            <span data-i18n="formSubmitBtn">إرسال الرسالة الآن</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="py-8 border-t border-slate-200 dark:border-slate-800 text-center text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p data-i18n="footerCopy">© 2026 جميع الحقوق محفوظة — ملف الأعمال الشخصي (علوم البيانات وتطوير الويب)</p>
+            <p class="font-code text-xs text-brand-600 dark:text-brand-400">Built with HTML5, Tailwind CSS & Vanilla JS</p>
+        </div>
+    </footer>
+
+    <!-- ==================== PROJECT DETAILS MODAL ==================== -->
+    <div id="project-modal" onclick="closeProjectModal(event)" class="fixed inset-0 bg-slate-950/75 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl">
+            <!-- Modal Header Banner -->
+            <div id="modal-banner" class="h-36 p-6 bg-gradient-to-r from-brand-600 to-accent-500 flex items-start justify-between text-white">
+                <span id="modal-category-badge" class="px-3 py-1 rounded-full bg-black/25 backdrop-blur-xs text-xs font-heading font-bold">Web App</span>
+                <button onclick="closeProjectModal()" class="w-9 h-9 rounded-xl bg-black/25 hover:bg-black/40 flex items-center justify-center text-white font-bold">✕</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 sm:p-8 space-y-5">
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-heading font-extrabold text-slate-900 dark:text-white">Project Title</h3>
+                    <p id="modal-desc" class="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">Description</p>
+                </div>
+
+                <div>
+                    <h4 data-i18n="modalHighlightsTitle" class="text-xs font-heading font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-2.5">أبرز المميزات التقنية:</h4>
+                    <ul id="modal-highlights" class="space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                        <!-- Injected dynamically -->
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 data-i18n="modalTechTitle" class="text-xs font-heading font-bold uppercase tracking-wider text-slate-500 mb-2">التقنيات المستخدمة:</h4>
+                    <div id="modal-tags" class="flex flex-wrap gap-2">
+                        <!-- Injected dynamically -->
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-3">
+                    <button onclick="closeProjectModal()" data-i18n="modalCloseBtn" class="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-heading font-bold text-xs sm:text-sm">إغلاق</button>
+                    <a href="#contact" onclick="closeProjectModal()" data-i18n="modalRequestBtn" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-heading font-bold text-xs sm:text-sm shadow-md">اطلب مشروعاً مشابهاً</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast" class="fixed bottom-6 end-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-3.5 rounded-2xl shadow-xl border border-brand-500/40 flex items-center gap-3">
+        <span class="text-emerald-400 dark:text-emerald-600 text-lg">✓</span>
+        <span id="toast-msg" class="text-xs sm:text-sm font-heading font-bold">تم بنجاح</span>
+    </div>
+
+    <!-- ==================== BILINGUAL DATA & INTERACTIVE LOGIC ==================== -->
+    <script>
+        let currentLang = 'ar';
+        let activeSkillFilter = 'all';
+        let activeProjFilter = 'all';
+
+        // Complete UI Translation Dictionary
+        const translations = {
+            ar: {
+                navBrand: "م. نور الهدى",
+                navRole: "علوم البيانات وتطوير الويب",
+                navAbout: "نبذة عني",
+                navSkills: "المهارات التقنية",
+                navProjects: "معرض الأعمال",
+                navAchievements: "الشهادات والإنجازات",
+                navContact: "تواصل معي",
+                heroBadge: "متاحة للمشاريع المستقلة والتعاون التقني",
+                heroTitle1: "أحوّل البيانات إلى",
+                heroTitleHighlight: "رؤى ذكية",
+                heroTitle2: "وأبني واجهات ويب عصرية",
+                heroSubtitle: "طالبة هندسة علوم البيانات والذكاء الاصطناعي ومطوّرة مستقلة متخصصة في تحليل البيانات بلغة بايثون وتصميم مواقع الويب المتجاوبة ثنائية اللغة (عربي / إنجليزي) بأعلى معايير الأداء والجمالية.",
+                heroCtaWork: "استعرض أعمالي",
+                heroCtaHire: "اطلب خدمة أو تواصل معي",
+                findMeOn: "حساباتي المهنية:",
+                platformMostaql: "مستقل",
+                platformKhamsat: "خمسات",
+                aboutTag: "من أنا؟",
+                aboutHeading: "أجمع بين الدقة التحليلية لعلوم البيانات والإبداع البصري لتطوير الويب",
+                aboutPara1: "بصفتي طالبة متفوقة في هندسة علوم البيانات والذكاء الاصطناعي بمعدل تراكمي 92.36%، أمتلك شغفاً كبيراً ببناء حلول برمجية تجمع بين الكفاءة الحسابية وتجربة المستخدم السلسة.",
+                aboutPara2: "أساعد الشركات ورواد الأعمال على منصات العمل الحر في بناء صفحات هبوط احترافية ومواقع تعريفية متوافقة مع كافة الأجهزة وتدعم اللغتين العربية والإنجليزية، بالإضافة إلى تنظيف وتحليل البيانات وبناء تقارير ذكية بلغة بايثون.",
+                statGpa: "المعدل التراكمي في علوم البيانات",
+                statProjects: "مشروع ويب وتحليل بيانات مكتمل",
+                statBilingual: "تطوير احترافي ثنائي اللغة RTL/LTR",
+                statDelivery: "الالتزام بالجودة ومواعيد التسليم",
+                skillsTag: "الأدوات والتقنيات",
+                skillsHeading: "مهاراتي التقنية",
+                skillsSub: "مجموعة متكاملة من تقنيات تطوير الواجهات الأمامية وهندسة وتحليل البيانات",
+                filterAll: "الكل",
+                filterData: "البيانات والذكاء الاصطناعي",
+                filterWeb: "تطوير الويب",
+                filterTools: "الأدوات وقواعد البيانات",
+                projectsTag: "نماذج من أعمالي",
+                projectsHeading: "معرض المشاريع المختارة",
+                projectsSub: "تطبيقات ويب تفاعلية ومشاريع تحليل بيانات مصممة بعناية لحل مشكلات واقعية",
+                projAll: "جميع المشاريع",
+                projWeb: "تطبيقات ومواقع الويب",
+                projData: "بايثون وتحليل البيانات",
+                achTag: "التعلم المستمر",
+                achHeading: "الشهادات والإنجازات الأكاديمية",
+                contactBadge: "ابدأ مشروعك الآن",
+                contactHeading: "هل لديك فكرة موقع أو مشروع بيانات؟",
+                contactDesc: "يسعدني مساعدتك في تصميم موقعك التعريفي المتجاوب أو تحليل بيانات مشروعك بدقة واحترافية. تواصل معي مباشرة وسأرد خلال ساعات.",
+                emailLabel: "البريد الإلكتروني المباشر",
+                copyBtn: "نسخ",
+                locationText: "متاحة للعمل عن بُعد مع العملاء حول العالم",
+                formNameLabel: "الاسم الكامل",
+                formEmailLabel: "البريد الإلكتروني",
+                formServiceLabel: "نوع الخدمة المطلوبة",
+                srvLanding: "تصميم صفحة هبوط / موقع تعريفي متجاوب (عربي / إنجليزي)",
+                srvData: "تنظيف وتحليل البيانات وتقارير بايثون (Pandas / Excel)",
+                srvWebapp: "تطوير تطبيق ويب تفاعلي متكامل",
+                formMsgLabel: "تفاصيل المشروع",
+                formSubmitBtn: "إرسال الرسالة الآن",
+                footerCopy: "© 2026 جميع الحقوق محفوظة — ملف الأعمال الشخصي (علوم البيانات وتطوير الويب)",
+                modalHighlightsTitle: "أبرز المميزات التقنية:",
+                modalTechTitle: "التقنيات المستخدمة:",
+                modalCloseBtn: "إغلاق",
+                modalRequestBtn: "اطلب مشروعاً مشابهاً",
+                viewDetailsBtn: "التفاصيل والمميزات",
+                toastCopied: "تم نسخ البريد الإلكتروني بنجاح!",
+                toastSent: "تم إرسال رسالتك بنجاح! سأتواصل معك قريباً."
+            },
+            en: {
+                navBrand: "Eng. Noor Al-Huda",
+                navRole: "Data Science & Web Dev",
+                navAbout: "About",
+                navSkills: "Tech Stack",
+                navProjects: "Projects",
+                navAchievements: "Certifications",
+                navContact: "Contact",
+                heroBadge: "Available for Freelance Projects & Collaboration",
+                heroTitle1: "Turning Data into",
+                heroTitleHighlight: "Smart Insights",
+                heroTitle2: "& Modern Web Experiences",
+                heroSubtitle: "Data Science & AI Engineering student and freelance developer specializing in Python data analytics and responsive bilingual (Arabic/English) websites engineered for speed and clarity.",
+                heroCtaWork: "Explore My Work",
+                heroCtaHire: "Hire Me / Contact",
+                findMeOn: "Find me on:",
+                platformMostaql: "Mostaql",
+                platformKhamsat: "Khamsat",
+                aboutTag: "About Me",
+                aboutHeading: "Bridging Analytical Data Science with Modern Frontend Engineering",
+                aboutPara1: "As a high-achieving Data Science & AI Engineering student with a 92.36% GPA, I am passionate about building software solutions that pair computational efficiency with intuitive user interfaces.",
+                aboutPara2: "I help businesses and entrepreneurs on freelance platforms launch responsive, bilingual (RTL/LTR) landing pages and corporate websites, alongside automated Python data cleaning and visual reporting.",
+                statGpa: "Cumulative GPA in Data Science",
+                statProjects: "Completed Web & Data Projects",
+                statBilingual: "Bilingual RTL/LTR Architecture",
+                statDelivery: "Commitment to Quality & Deadlines",
+                skillsTag: "Tools & Technologies",
+                skillsHeading: "Technical Skills",
+                skillsSub: "A versatile stack spanning modern frontend development and data engineering",
+                filterAll: "All",
+                filterData: "Data & AI",
+                filterWeb: "Web Development",
+                filterTools: "Tools & Databases",
+                projectsTag: "Selected Work",
+                projectsHeading: "Featured Portfolio Projects",
+                projectsSub: "Interactive web applications and Python analytics pipelines crafted for real-world impact",
+                projAll: "All Projects",
+                projWeb: "Web Apps & Sites",
+                projData: "Data & Python",
+                achTag: "Continuous Growth",
+                achHeading: "Certifications & Milestones",
+                contactBadge: "Start Your Project",
+                contactHeading: "Have a Website or Data Project in Mind?",
+                contactDesc: "I would love to help you build a responsive bilingual website or turn your raw datasets into actionable reports. Reach out directly and I will respond promptly.",
+                emailLabel: "Direct Email Address",
+                copyBtn: "Copy",
+                locationText: "Available for remote freelance work worldwide",
+                formNameLabel: "Full Name",
+                formEmailLabel: "Email Address",
+                formServiceLabel: "Service Needed",
+                srvLanding: "Responsive Bilingual Landing Page / Corporate Website (AR/EN)",
+                srvData: "Python Data Cleaning, Analysis & Excel Reporting",
+                srvWebapp: "Interactive Frontend Web Application",
+                formMsgLabel: "Project Details",
+                formSubmitBtn: "Send Message",
+                footerCopy: "© 2026 All Rights Reserved — Personal Portfolio (Data Science & Web Development)",
+                modalHighlightsTitle: "Key Technical Highlights:",
+                modalTechTitle: "Technologies Used:",
+                modalCloseBtn: "Close",
+                modalRequestBtn: "Request Similar Project",
+                viewDetailsBtn: "View Details",
+                toastCopied: "Email address copied to clipboard!",
+                toastSent: "Message sent successfully! I will get back to you soon."
+            }
+        };
+
+        // Skills Data
+        const skillsData = [
+            { name: "Python (Pandas & NumPy)", cat: "data", level: 95, descAr: "تنظيف البيانات، التحليل الإحصائي، وأتمتة التقارير", descEn: "Data wrangling, statistical analysis & automated pipelines", icon: "🐍" },
+            { name: "Data Visualization", cat: "data", level: 90, descAr: "Matplotlib, Seaborn ورسوم بيانية تفاعلية واضحة", descEn: "Matplotlib, Seaborn & executive visual storytelling", icon: "📊" },
+            { name: "HTML5 & Semantic Web", cat: "web", level: 96, descAr: "بنية صفحات نظيفة متوافقة مع محركات البحث SEO", descEn: "Clean, accessible & SEO-friendly markup architecture", icon: "🌐" },
+            { name: "CSS3 & Tailwind CSS", cat: "web", level: 94, descAr: "تصميم متجاوب بالكامل ودعم ثنائي اللغة RTL/LTR", descEn: "Mobile-first responsive layouts & native RTL/LTR support", icon: "🎨" },
+            { name: "JavaScript (ES6+)", cat: "web", level: 90, descAr: "تفاعلية ديناميكية، ربط APIs، وإدارة حالة الواجهة", descEn: "Dynamic interactivity, REST API integration & DOM logic", icon: "⚡" },
+            { name: "SQL & Oracle Database", cat: "tools", level: 88, descAr: "استعلامات معقدة، تصميم الجداول، وإدارة قواعد البيانات", descEn: "Complex queries, relational modeling & DB management", icon: "🗄️" },
+            { name: "Excel & OpenPyXL", cat: "data", level: 92, descAr: "توليد تقارير إكسل منسقة برمجياً ولوحات متابعة", descEn: "Programmatic Excel report generation & KPI dashboards", icon: "📑" },
+            { name: "Git, GitHub & Linux", cat: "tools", level: 89, descAr: "إدارة الإصدارات والعمل في بيئة Ubuntu وسطر الأوامر", descEn: "Version control workflows & Ubuntu CLI proficiency", icon: "🛠️" }
+        ];
+
+        // Portfolio Projects Data
+        const projectsData = [
+            {
+                id: 1,
+                category: "web",
+                gradient: "from-indigo-600 via-purple-600 to-pink-500",
+                icon: "🧠",
+                badgeAr: "تطبيق ويب ذكي",
+                badgeEn: "AI Web App",
+                titleAr: "المعلم الذكي (Smart Teacher Pro)",
+                titleEn: "Smart Teacher Pro",
+                summaryAr: "منصة دراسية تفاعلية مدعومة بالذكاء الاصطناعي لتوليد الاختبارات، ضغط النصوص بخوارزمية هوفمان، وإدارة المهام الدراسية.",
+                summaryEn: "AI-powered study assistant web app featuring smart quiz generation, Huffman text compression visualization, and interactive study checklists.",
+                highlightsAr: [
+                    "ربط مباشر مع واجهة Gemini API لتلخيص الدروس وتوليد أسئلة تفاعلية.",
+                    "تطبيق عملي لخوارزمية Huffman Coding لضغط النصوص وعرض شجرة الترميز.",
+                    "واجهة مستخدم عصرية سريعة الاستجابة مع حفظ تلقائي للتقدم الدراسي."
+                ],
+                highlightsEn: [
+                    "Integrated with Gemini API for instant lesson summaries and interactive quizzes.",
+                    "Visual implementation of Huffman Coding text compression and bit-saving metrics.",
+                    "Responsive modern UI with persistent local storage for study progress."
+                ],
+                tags: ["HTML5", "CSS3", "JavaScript", "Gemini API", "Algorithms"]
+            },
+            {
+                id: 2,
+                category: "data",
+                gradient: "from-emerald-600 via-teal-600 to-cyan-600",
+                icon: "📈",
+                badgeAr: "تحليل بيانات بايثون",
+                badgeEn: "Python Data Pipeline",
+                titleAr: "نظام تحليل مبيعات السوبرماركت",
+                titleEn: "Supermarket Sales Analysis System",
+                summaryAr: "محرك برمجي متكامل مبني بلغة بايثون والبرمجة كائنية التوجه لتنظيف بيانات المبيعات وتوليد تقارير إكسل ورسوم بيانية.",
+                summaryEn: "Object-oriented Python analytics engine using Pandas, NumPy, and OpenPyXL to clean retail datasets and export formatted Excel reports.",
+                highlightsAr: [
+                    "معالجة تلقائية للقيم المفقودة والشاذة باستخدام مكتبتي Pandas و NumPy.",
+                    "توليد ملفات Excel احترافية منسقة بالألوان والمعادلات عبر OpenPyXL.",
+                    "استخراج مؤشرات الأداء الرئيسية (KPIs) لأكثر المنتجات والفروع ربحية."
+                ],
+                highlightsEn: [
+                    "Automated missing-value imputation and outlier handling with Pandas & NumPy.",
+                    "Programmatic export of styled multi-sheet Excel reports via OpenPyXL.",
+                    "Actionable KPI insights highlighting top-performing branches and product lines."
+                ],
+                tags: ["Python", "OOP", "Pandas", "NumPy", "OpenPyXL"]
+            },
+            {
+                id: 3,
+                category: "web",
+                gradient: "from-amber-600 via-orange-600 to-rose-600",
+                icon: "🧁",
+                badgeAr: "متجر إلكتروني متجاوب",
+                badgeEn: "E-Commerce UI",
+                titleAr: "متجر ذاكرة السكر للحلويات",
+                titleEn: "Sugar Memory Bakery Storefront",
+                summaryAr: "واجهة متجر حلويات ومخبوزات فاخرة بتصميم عربي دافئ، تتضمن تصفية فورية للأصناف وسلة مشتريات جانبية متحركة.",
+                summaryEn: "Luxury Arabic bakery and sweets storefront featuring instant category filtering, sliding cart drawer, and live checkout calculation.",
+                highlightsAr: [
+                    "سلة مشتريات تفاعلية تحسب المجموع الفرعي ورسوم التوصيل لحظياً.",
+                    "تصفية سلسة للأصناف (حلويات شرقية، كيك، مخبوزات) بدون إعادة تحميل الصفحة.",
+                    "نموذج مخصص لطلبات المناسبات والحفلات مع تجربة استخدام متوافقة مع الجوال."
+                ],
+                highlightsEn: [
+                    "Interactive sliding cart drawer with real-time quantity and total calculations.",
+                    "Instant client-side category filtering across oriental sweets, cakes, and bakery.",
+                    "Dedicated custom occasion inquiry form optimized for mobile and desktop."
+                ],
+                tags: ["HTML5", "Tailwind CSS", "JavaScript", "UI/UX", "RTL Design"]
+            },
+            {
+                id: 4,
+                category: "web",
+                gradient: "from-slate-700 via-blue-800 to-indigo-900",
+                icon: "⚖️",
+                badgeAr: "موقع مؤسسي ثنائي اللغة",
+                badgeEn: "Corporate Bilingual Site",
+                titleAr: "الموقع الرسمي لمكتب استشارات قانونية",
+                titleEn: "Law Firm Bilingual Corporate Website",
+                summaryAr: "موقع تعريفي رسمي وأنيق مصمم خصيصاً لمكاتب المحاماة مع زر تبديل فوري بين العربية (RTL) والإنجليزية (LTR).",
+                summaryEn: "Authoritative corporate website tailored for legal consultancies with seamless Arabic (RTL) and English (LTR) language switching.",
+                highlightsAr: [
+                    "تبديل فوري لاتجاه الصفحة بالكامل (RTL / LTR) مع الحفاظ على تناسق الخطوط.",
+                    "أقسام مؤسسية متكاملة: من نحن، مجالات الممارسة القانونية، والمعلومات الرسمية.",
+                    "بنية برمجية نظيفة وقابلة للتوسع المستقبلي بسهولة."
+                ],
+                highlightsEn: [
+                    "Instant full-page RTL/LTR layout switching with tailored Arabic & English typography.",
+                    "Structured corporate sections covering practice areas, firm profile, and legal info.",
+                    "Clean, modular codebase built for effortless future expansion."
+                ],
+                tags: ["HTML5", "CSS3", "JavaScript", "Bilingual RTL/LTR"]
+            },
+            {
+                id: 5,
+                category: "data",
+                gradient: "from-violet-600 via-indigo-600 to-blue-600",
+                icon: "💳",
+                badgeAr: "بايثون وقواعد بيانات",
+                badgeEn: "Python & SQL Tool",
+                titleAr: "متتبع الاشتراكات والمصاريف المالية",
+                titleEn: "Financial & Subscription Tracker",
+                summaryAr: "أداة برمجية لتحليل المصاريف الشهرية واشتراكات الاتصالات وتقديم تنبيهات ذكية لتقليل النفقات المتكررة.",
+                summaryEn: "Python & SQL data tracking tool that categorizes monthly telecom and recurring expenses with visual spending breakdowns.",
+                highlightsAr: [
+                    "تخزين واسترجاع منظم للبيانات المالية باستخدام استعلامات SQL.",
+                    "تصنيف تلقائي للنفقات الشهرية وحساب نسب الاستهلاك.",
+                    "توليد ملخصات شهرية تساعد في اتخاذ قرارات ادخار أفضل."
+                ],
+                highlightsEn: [
+                    "Structured persistence and querying of recurring transactions using SQL.",
+                    "Automated expense categorization and monthly budget variance analysis.",
+                    "Clear visual summaries supporting smarter personal and business budgeting."
+                ],
+                tags: ["Python", "SQL", "Data Cleaning", "Analytics"]
+            }
+        ];
+
+        // Certifications & Achievements Data
+        const achievementsData = [
+            {
+                icon: "🎓",
+                year: "2024 – 2026",
+                titleAr: "هندسة علوم البيانات والذكاء الاصطناعي",
+                titleEn: "Data Science & AI Engineering",
+                orgAr: "معدل تراكمي 92.36% (مرتبة الشرف)",
+                orgEn: "Cumulative GPA: 92.36% (Honors Standing)",
+                descAr: "دراسة متعمقة في الخوارزميات، هياكل البيانات، الإحصاء، قواعد البيانات، وتعلم الآلة.",
+                descEn: "Focused coursework in algorithms, data structures, statistics, databases, and machine learning."
+            },
+            {
+                icon: "💎",
+                year: "2026",
+                titleAr: "Building with AI - Diamond Edition",
+                titleEn: "Building with AI - Diamond Edition",
+                orgAr: "برنامج Google للمطورين",
+                orgEn: "Google Developer Program",
+                descAr: "تطوير تطبيقات ذكية مدعومة بنماذج اللغة الكبيرة ودمج واجهات الذكاء الاصطناعي في الويب.",
+                descEn: "Building AI-powered web applications and integrating generative AI APIs into practical workflows."
+            },
+            {
+                icon: "🤖",
+                year: "2026",
+                titleAr: "شهادة Claude 101 المعتمدة",
+                titleEn: "Claude 101 Certification",
+                orgAr: "Anthropic",
+                orgEn: "Anthropic",
+                descAr: "إتقان هندسة الأوامر (Prompt Engineering) وبناء تدفقات عمل إنتاجية مدعومة بالذكاء الاصطناعي.",
+                descEn: "Mastery of structured prompt engineering and AI-assisted development workflows."
+            },
+            {
+                icon: "🐍",
+                year: "2025",
+                titleAr: "شهادة Python (Basic) المعتمدة",
+                titleEn: "Python (Basic) Verified Certificate",
+                orgAr: "HackerRank",
+                orgEn: "HackerRank",
+                descAr: "اجتياز اختبارات حل المشكلات وهياكل البيانات والبرمجة بلغة بايثون.",
+                descEn: "Verified proficiency in Python problem solving, data structures, and algorithmic logic."
+            },
+            {
+                icon: "📊",
+                year: "2025",
+                titleAr: "مسار محلل بيانات Microsoft Power BI",
+                titleEn: "Microsoft Power BI Data Analyst Track",
+                orgAr: "تحليل البيانات وذكاء الأعمال",
+                orgEn: "Business Intelligence & Data Analytics",
+                descAr: "نمذجة البيانات وبناء لوحات معلومات تفاعلية لدعم اتخاذ القرار.",
+                descEn: "Data modeling, DAX calculations, and interactive executive dashboard design."
+            },
+            {
+                icon: "🚀",
+                year: "2025 – 2026",
+                titleAr: "مساهمات ومشاريع مفتوحة المصدر",
+                titleEn: "Open Source & GitHub Portfolio",
+                orgAr: "GitHub Developer Community",
+                orgEn: "GitHub Developer Community",
+                descAr: "توثيق ونشر مشاريع بايثون وتطبيقات الويب التفاعلية بأسلوب برمجي نظيف ومنظم.",
+                descEn: "Publishing well-documented Python analytics tools and responsive web apps on GitHub."
+            }
+        ];
+
+        // Render Skills Grid
+        function renderSkills() {
+            const grid = document.getElementById('skills-grid');
+            const filtered = activeSkillFilter === 'all' 
+                ? skillsData 
+                : skillsData.filter(s => s.cat === activeSkillFilter);
+
+            grid.innerHTML = filtered.map(skill => `
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/60 transition-all shadow-xs group">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">${skill.icon}</span>
+                        <span class="font-code text-xs font-bold text-brand-600 dark:text-brand-400">${skill.level}%</span>
+                    </div>
+                    <h3 dir="ltr" class="font-code font-bold text-sm sm:text-base text-slate-900 dark:text-white text-start">${skill.name}</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                        ${currentLang === 'ar' ? skill.descAr : skill.descEn}
+                    </p>
+                    <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mt-4">
+                        <div class="h-full bg-gradient-to-r from-brand-500 to-accent-400 rounded-full" style="width: ${skill.level}%"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Skills Handler
+        function filterSkills(category) {
+            activeSkillFilter = category;
+            document.querySelectorAll('.skill-tab').forEach(btn => {
+                if (btn.dataset.skillCat === category) {
+                    btn.classList.add('bg-brand-600', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-800');
+                } else {
+                    btn.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-800');
+                }
+            });
+            renderSkills();
+        }
+
+        // Render Projects Grid
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            const filtered = activeProjFilter === 'all'
+                ? projectsData
+                : projectsData.filter(p => p.category === activeProjFilter);
+
+            grid.innerHTML = filtered.map(proj => `
+                <article class="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <!-- Geometric Gradient Header Banner -->
+                    <div class="h-40 bg-gradient-to-br ${proj.gradient} p-6 flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute -bottom-6 -end-6 w-28 h-28 rounded-full bg-white/10 pointer-events-none"></div>
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-black/25 backdrop-blur-xs text-white text-xs font-heading font-bold">
+                                ${currentLang === 'ar' ? proj.badgeAr : proj.badgeEn}
+                            </span>
+                            <span class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-xl">
+                                ${proj.icon}
+                            </span>
+                        </div>
+                        <h3 class="font-heading font-extrabold text-lg text-white leading-snug drop-shadow-xs">
+                            ${currentLang === 'ar' ? proj.titleAr : proj.titleEn}
+                        </h3>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-5">
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            ${currentLang === 'ar' ? proj.summaryAr : proj.summaryEn}
+                        </p>
+
+                        <div class="space-y-4">
+                            <div dir="ltr" class="flex flex-wrap gap-1.5">
+                                ${proj.tags.map(tag => `
+                                    <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-code text-[11px] font-medium">
+                                        ${tag}
+                                    </span>
+                                `).join('')}
+                            </div>
+
+                            <button onclick="openProjectModal(${proj.id})" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-brand-600 hover:text-white dark:hover:bg-brand-600 text-slate-800 dark:text-slate-100 font-heading font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2">
+                                <span>${translations[currentLang].viewDetailsBtn}</span>
+                                <span class="rtl:rotate-180">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Filter Projects Handler
+        function filterProjects(category) {
+            activeProjFilter = category;
+            document.querySelectorAll('.proj-tab').forEach(btn => {
+                if (btn.dataset.projCat === category) {
+                    btn.classList.add('bg-brand-600', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-800');
+                } else {
+                    btn.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-800');
+                }
+            });
+            renderProjects();
+        }
+
+        // Render Achievements Grid
+        function renderAchievements() {
+            const grid = document.getElementById('achievements-grid');
+            grid.innerHTML = achievementsData.map(item => `
+                <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-11 h-11 rounded-2xl bg-brand-500/10 flex items-center justify-center text-xl">${item.icon}</span>
+                            <span class="font-code text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${item.year}</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+                            ${currentLang === 'ar' ? item.titleAr : item.titleEn}
+                        </h3>
+                        <p class="text-xs font-semibold text-brand-600 dark:text-brand-400 mt-1">
+                            ${currentLang === 'ar' ? item.orgAr : item.orgEn}
+                        </p>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed pt-3 border-t border-slate-100 dark:border-slate-800">
+                        ${currentLang === 'ar' ? item.descAr : item.descEn}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        // Open Project Details Modal
+        function openProjectModal(projectId) {
+            const proj = projectsData.find(p => p.id === projectId);
+            if (!proj) return;
+
+            const banner = document.getElementById('modal-banner');
+            banner.className = `h-36 p-6 bg-gradient-to-r ${proj.gradient} flex items-start justify-between text-white`;
+
+            document.getElementById('modal-category-badge').textContent = currentLang === 'ar' ? proj.badgeAr : proj.badgeEn;
+            document.getElementById('modal-title').textContent = currentLang === 'ar' ? proj.titleAr : proj.titleEn;
+            document.getElementById('modal-desc').textContent = currentLang === 'ar' ? proj.summaryAr : proj.summaryEn;
+
+            const highlights = currentLang === 'ar' ? proj.highlightsAr : proj.highlightsEn;
+            document.getElementById('modal-highlights').innerHTML = highlights.map(h => `
+                <li class="flex items-start gap-2">
+                    <span class="text-accent-500 font-bold mt-0.5">✓</span>
+                    <span>${h}</span>
+                </li>
+            `).join('');
+
+            document.getElementById('modal-tags').innerHTML = proj.tags.map(t => `
+                <span class="px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 font-code text-xs font-semibold">${t}</span>
+            `).join('');
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Bilingual Language Toggle (RTL <-> LTR)
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const htmlEl = document.documentElement;
+            htmlEl.setAttribute('lang', currentLang);
+            htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+
+            // Update Switcher Button Label
+            document.getElementById('lang-label').textContent = currentLang === 'ar' ? 'English' : 'العربية';
+
+            // Translate all static elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+
+            // Update Form Placeholders
+            document.getElementById('input-name').placeholder = currentLang === 'ar' ? 'مثال: أحمد السالم' : 'e.g., Alex Morgan';
+            document.getElementById('input-email').placeholder = 'name@example.com';
+            document.getElementById('input-msg').placeholder = currentLang === 'ar' 
+                ? 'اكتب تفاصيل مشروعك، المدة المتوقعة، وأي متطلبات خاصة...' 
+                : 'Describe your project goals, timeline, and key requirements...';
+
+            // Re-render Dynamic Sections
+            renderSkills();
+            renderProjects();
+            renderAchievements();
+        }
+
+        // Dark / Light Mode Toggle
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Copy Email to Clipboard (iFrame safe)
+        function copyEmail() {
+            const email = document.getElementById('email-text').textContent;
+            const tempInput = document.createElement('input');
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(translations[currentLang].toastCopied);
+        }
+
+        // Contact Form Handler
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast(translations[currentLang].toastSent);
+            e.target.reset();
+        }
+
+        // Toast Helper
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // Initialize Page Content
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSkills();
+            renderProjects();
+            renderAchievements();
+        });
+    </script>
+</body>
+</html>
